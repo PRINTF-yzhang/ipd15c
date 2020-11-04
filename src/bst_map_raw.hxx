@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 
 // A map from `std::size_t` to `double`.
 class Bst_map
@@ -40,6 +41,10 @@ private:
 
     std::size_t size_;
     node_ptr    root_;
+
+    node_ptr copy_nodes_(node_ptr uniquePtr);
+
+    void delet_nodes_(node_ptr pNode);
 };
 
 struct Bst_map::Node_

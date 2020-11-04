@@ -121,6 +121,10 @@ TEST_CASE("Copy constructor")
 
     map1.insert(5, 50);
 
-    /* TODO: Make this work. */
-    // Bst_map map2(map1);
+     Bst_map map2(map1);
+
+    SECTION("lookup 5") {
+        REQUIRE(map2.lookup(5));
+        CHECK(*map2.lookup(5) == 50);
+    }
 }

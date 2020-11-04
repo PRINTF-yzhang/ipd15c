@@ -38,6 +38,8 @@ private:
 
     std::size_t size_;
     node_ptr    root_;
+
+    node_ptr copy_nodes_(node_ptr others);
 };
 
 struct Bst_map::Node_

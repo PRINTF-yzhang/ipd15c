@@ -1,5 +1,6 @@
 #include "bst_map_raw.hxx"
 
+
 #include <vector>
 
 
@@ -10,14 +11,17 @@ Bst_map::Bst_map()
 
 
 Bst_map::Bst_map(Bst_map const& other)
-        : Bst_map()  // << TODO fix this
+        : size_(other.size_)
+        ,root_(copy_nodes_(other.root_))
 { }
 
 
 Bst_map& Bst_map::operator=(Bst_map const& other)
 {
-    // TODO complete this
-
+    if(*this == &other)
+        return *this;
+    delet_nodes_(root_);
+    root_ = copy_nodes_(other.root_);
     return *this;
 }
 
@@ -87,18 +91,6 @@ void Bst_map::remove(Bst_map::key_t key)
         } else {
             node_ptr& curr = *currp;
 
-            // if curr has both children,
-            //
-            //      curr      =>     S
-            //   /        \        /   \
-            //  L          R      L     R
-            //            /            /
-            //           .            .
-            //          .            .
-            //         .            .
-            //        S           SR...
-            //         \
-            //          SR...
             if (curr->left && curr->right) {
                 node_ptr* sp = &curr->right;
                 while ((*sp)->left) {
@@ -133,3 +125,18 @@ size_t Bst_map::size() const
     return size_;
 }
 
+void Bst_map::delet_nodes_(Bst_map::Node_ *pNode) {
+    delete root_;
+}
+
+Bst_map::node_ptr Bst_map::copy_nodes_(Bst_map::node_ptr others) {
+    Bst_map::node_ptr copyMap = NULL;
+    if(others){
+        copyMap->key = others->key;
+        copyMap->value = others->value;
+        copyMap->left = copy_nodes_(others->left);
+        copyMap->right = copy_nodes_(others->right);
+
+    }
+    return copyMap;
+}

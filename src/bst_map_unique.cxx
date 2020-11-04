@@ -10,15 +10,16 @@ Bst_map::Bst_map()
 
 
 Bst_map::Bst_map(Bst_map const& other)
-        : Bst_map()  // << TODO fix this
+        : size_(other.size_)
+        ,root_(copy_nodes_(other.root_))
 { }
 
 
 Bst_map& Bst_map::operator=(Bst_map const& other)
 {
-    // TODO complete this
-
-    return *this;
+    size_ = other.size_;
+    delet_nodes_(root_);
+    root_ = copy_nodes_(other.root_);
 }
 
 
@@ -118,3 +119,19 @@ size_t Bst_map::size() const
 {
     return size_;
 }
+
+
+
+
+std::unique_ptr<Bst_map::Node_> Bst_map::copy_nodes_(std::unique_ptr<Bst_map::Node_> uniquePtr) {
+    std::unique_ptr<Bst_map::Node_> copyMap = NULL;
+    if(uniquePtr){
+        copyMap->key = uniquePtr->key;
+        copyMap->value = uniquePtr->value;
+
+        copyMap->left = copy_nodes_(uniquePtr->left);
+        copyMap->right = copy_nodes_(uniquePtr->right);
+    }
+    return copyMap;
+}
+
